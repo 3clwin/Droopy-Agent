@@ -1,0 +1,24 @@
+---
+description: Governs ticket QA, browser testing, Figma comparison, result comments, and defect creation after onboarding.
+alwaysApply: true
+---
+
+# Droopy Agent QA rule
+
+If `.droopy/onboarding.json` is missing or `.env` still has placeholders, follow `droopy-onboarding.mdc` first. Do not start QA until onboarding is complete.
+
+Follow `AGENTS.md` as the execution contract.
+
+- One Chrome DevTools MCP process with `$HOME/.droopy-agent/chrome-profile` unless `DROOPY_CHROME_PROFILE` is set. Serial: one review item at a time. Do not launch a second chrome-devtools server or `--userDataDir`. Do not use `--isolated` (wipes SSO). Sub-agents reuse the parent browser.
+- Save screenshots as `evidence/<ticket-or-id>-<what>.png` (absolute workspace path). Never `/tmp`, Desktop, or home dumps; retry `evidence/` only on write failure. Attach from `evidence/` when the tracker accepts files.
+- Reload the configured queue (`QA_QUEUE_URL`) at the start of every QA session. Do not pick items from a stale leftover tab.
+- Derive a checklist from every acceptance criterion before testing.
+- Prefer exact linked Figma evidence via headless Figma MCP; when absent, use `DESIGN.md`, live consistency, and accessibility.
+- Pass requires positive evidence for every applicable requirement. Incomplete testing is not Pass.
+- Loading or hang may be session state: wait, then SSO retry. Fail only after that retry still fails.
+- Persistence tests: after changing filters or state, click the client's persist-commit control (`QA_PERSIST_COMMIT_LABEL`) before judging save. If that label is empty, skip persist-commit and record that it was not configured.
+- Pass/Fail on the tracker comment when comments exist; skip the results sheet when `QA_RESULTS_SHEET_URL` is empty; if neither exists, write `evidence/<ticket-or-id>-result.md`. Use `QA_TRACKER_TYPE` as configured — do not invent Jira fields or spreadsheet columns.
+- One result comment on the ticket. If we were wrong, edit that comment; do not stack. Never overwrite other people's defects or comments.
+- For failures, follow `docs/BUG-CREATION.md`. If a matching defect already exists, log it and stop.
+- Tracker and app live in Chrome DevTools. Optional GitHub or Mural MCP only if the operator added them.
+- Ask only when blocked (Cursor: AskQuestion). Never expose credentials, cookies, or tokens. SSO using emails in `.env` only — no passwords.

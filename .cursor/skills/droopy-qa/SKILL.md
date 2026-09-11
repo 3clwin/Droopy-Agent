@@ -1,0 +1,1 @@
+../../../skills/droopy-qa/SKILL.md

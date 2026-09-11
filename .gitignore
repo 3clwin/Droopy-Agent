@@ -1,0 +1,10 @@
+.env
+.auth/
+.droopy/
+evidence/*
+!evidence/.gitkeep
+.DS_Store
+node_modules/
+*.log
+.codex/*
+!.codex/config.toml

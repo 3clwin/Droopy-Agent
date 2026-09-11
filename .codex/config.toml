@@ -1,0 +1,11 @@
+# Project MCP for Codex. Loaded only when this project is trusted.
+# User-wide servers can instead live in ~/.codex/config.toml.
+# Relative cwd is the project root (parent of this .codex/ folder).
+
+[mcp_servers.chrome-devtools]
+command = "/bin/bash"
+args = ["scripts/start-chrome-devtools-mcp.sh"]
+cwd = ".."
+
+[mcp_servers.figma]
+url = "https://mcp.figma.com/mcp"
